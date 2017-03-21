@@ -1,18 +1,17 @@
 class cerebro::install (
   $version,
   $user,
-  package_url
+  $package_url
 ) {
   $group = $user
 
   package { 'unzip':
     ensure => present
   }
+
   staging::deploy { "cerebro-${version}.zip":
     source  => $package_url,
     target  => '/opt',
-    user    => $user,
-    group   => $group,
     require => Package['unzip']
   } ->
 
@@ -21,6 +20,12 @@ class cerebro::install (
     owner  => $user,
     group  => $group,
     target => "/opt/cerebro-${version}",
+  } ->
+  
+  file { "/opt/cerebro-${version}":
+    ensure => directory,
+    owner  => $user,
+    group  => $group
   }
 
   file { '/var/run/cerebro':
