@@ -1,7 +1,7 @@
 class cerebro::install (
   $version,
   $user,
-  $package_url = "https://github.com/lmenezes/cerebro/releases/download/v${version}/cerebro-${version}.zip",
+  package_url
 ) {
   $group = $user
 
