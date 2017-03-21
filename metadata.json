@@ -14,7 +14,7 @@
     },
     {
       "name": "puppet-staging",
-      "version_requirement": ">= 2.0.0 < 3.0.0"
+      "version_requirement": "< 3.0.0"
     }
   ],
   "data_provider": null
