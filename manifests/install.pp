@@ -5,9 +5,13 @@ class cerebro::install (
   $group = $user
   $package_url = "https://github.com/lmenezes/cerebro/releases/download/v${version}/cerebro-${version}.zip"
 
+  package { 'unzip':
+    ensure => present
+  }
   staging::deploy { "cerebro-${version}.zip":
-    source => $package_url,
-    target => '/opt',
+    source  => $package_url,
+    target  => '/opt',
+    require => Package['unzip']
   } ->
 
   file { '/opt/cerebro':
