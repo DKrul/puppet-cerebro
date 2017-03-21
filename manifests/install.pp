@@ -26,6 +26,13 @@ class cerebro::install (
     ensure => directory,
     owner  => $user,
     group  => $group
+  } ->
+
+  file { '/var/log/cerebro':
+    ensure => link,
+    owner  => $user,
+    group  => $group,
+    target => '/opt/cerebro/logs'
   }
 
   file { '/var/run/cerebro':
