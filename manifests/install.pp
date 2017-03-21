@@ -11,11 +11,15 @@ class cerebro::install (
   staging::deploy { "cerebro-${version}.zip":
     source  => $package_url,
     target  => '/opt',
+    user    => $user,
+    group   => $group,
     require => Package['unzip']
   } ->
 
   file { '/opt/cerebro':
     ensure => 'link',
+    owner  => $user,
+    group  => $group,
     target => "/opt/cerebro-${version}",
   }
 
