@@ -1,15 +1,18 @@
 class cerebro (
-  $version        = '0.5.1',
-  $package_url    = "https://github.com/lmenezes/cerebro/releases/download/v${version}/cerebro-${version}.zip",
-  $service_ensure = 'running',
-  $service_enable = true,
-  $java_install   = false,
-  $java_package   = undef,
+  $version         = undef,
+  $package_baseurl = "https://github.com/lmenezes/cerebro/releases/download",
+  $service_ensure  = 'running',
+  $service_enable  = true,
+  $java_install    = false,
+  $java_package    = undef,
 ) {
   anchor {'cerebro::begin': }
 
   $cerebro_user = 'cerebro'
 
+  if $version == undef {
+    fail "Please provide a valid version: ${title}::version"
+  }
   if $java_install == true {
     # Install java
     class { '::java':
@@ -30,7 +33,7 @@ class cerebro (
   class { 'cerebro::install':
     user        => $cerebro_user,
     version     => $version,
-    package_url => $package_url,
+    package_url => "${package_baseurl}/v${version}/cerebro-${version}.zip",
   } ~>
 
   class { 'cerebro::service':
