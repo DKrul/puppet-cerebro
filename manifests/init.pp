@@ -1,10 +1,12 @@
 class cerebro (
-  $version         = undef,
-  $package_baseurl = "https://github.com/lmenezes/cerebro/releases/download",
-  $service_ensure  = 'running',
-  $service_enable  = true,
-  $java_install    = false,
-  $java_package    = undef,
+  $version                = undef,
+  $package_baseurl        = "https://github.com/lmenezes/cerebro/releases/download",
+  $service_ensure         = 'running',
+  $service_enable         = true,
+  $java_install           = false,
+  $java_package           = undef,
+  $session_secret         = 'ki:s:[[@=Ag?QI`W2jMwkY:eqvrJ]JqoJyi2axj3ZvOv^/KavOT4ViJSv?6YY4[N',
+  $elasticsearch_clusters = undef
 ) {
   anchor {'cerebro::begin': }
 
@@ -35,6 +37,11 @@ class cerebro (
     version     => $version,
     package_url => "${package_baseurl}/v${version}/cerebro-${version}.zip",
   } ~>
+
+  class { 'cerebro::config':
+    session_secret         => $session_secret,
+    elasticsearch_clusters => $elasticsearch_clusters
+  } ->
 
   class { 'cerebro::service':
     enable => $service_enable,
